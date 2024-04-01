@@ -115,6 +115,10 @@ Once vscode is open you can run your workspace tasks.
 
 - [x] Add console and shell over USB on stm32f4_disco
 
+- [ ] Fix flashing in devcontainer
+
+- [ ] Fix menuconfig vscode task inside devcontainer
+
 - [ ] Add USB support to Serial class
 
 - [ ] Solve the Shared Callback Registration problem in the Network class (broadcast an event)
