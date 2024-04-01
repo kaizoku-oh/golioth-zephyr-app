@@ -19,7 +19,7 @@
                 "-p",
                 "auto",
                 "-b",
-                "nucleo_f767zi"
+                "${input:board}"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -41,32 +41,11 @@
                 "-p",
                 "auto",
                 "-b",
-                "nucleo_f767zi"
-            ],
-            "problemMatcher": [
-                "$gcc"
-            ],
-        },
-        {
-            "label": "Configurable Build",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-            },
-            "command": "west",
-            "args": [
-                "build",
-                "${workspaceFolder}/app",
-                "-d",
-                "${workspaceFolder}/app/build",
-                "-p",
-                "auto",
-                "-b",
                 "${input:board}"
             ],
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
         },
         {
             "label": "Clean (application)",
@@ -119,53 +98,7 @@
             ]
         },
         {
-            "label": "Flash (STM32CubeProgrammer app)",
-            "type": "shell",
-            "command": "STM32_Programmer_CLI",
-            "args": [
-                "-c",
-                "port=swd",
-                "mode=UR",
-                "-w",
-                "app/build/zephyr/zephyr.bin",
-                "0x08040000"
-            ],
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
-            "label": "Flash (STM32CubeProgrammer boot)",
-            "type": "shell",
-            "command": "STM32_Programmer_CLI",
-            "args": [
-                "-c",
-                "port=swd",
-                "mode=UR",
-                "-w",
-                "deps/bootloader/mcuboot/boot/zephyr/build/zephyr/zephyr.bin",
-                "0x08000000"
-            ],
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
-            "label": "Erase (STM32CubeProgrammer)",
-            "type": "shell",
-            "command": "STM32_Programmer_CLI",
-            "args": [
-                "--connect",
-                "port=swd",
-                "-e",
-                "all"
-            ],
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
-            "label": "Update",
+            "label": "Update (west)",
             "type": "shell",
             "command": "west",
             "args": [
@@ -184,13 +117,22 @@
                 "-p",
                 "auto",
                 "-b",
-                "nucleo_f767zi",
+                "${input:board}",
                 "-t",
                 "menuconfig"
             ],
             "problemMatcher": [
                 "$gcc"
             ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "board",
+            "type": "pickString",
+            "default": "nucleo_u575zi_q",
+            "description": "See https://docs.zephyrproject.org/latest/boards/st",
+            "options": ["nucleo_u575zi_q", "nucleo_f767zi"]
         }
     ]
 }
