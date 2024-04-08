@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/app/build/zephyr/zephyr.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stlink",
+            "stlinkPath": "/opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.stlink-gdb-server.linux64_2.1.100.202310302101/tools/bin/ST-LINK_gdbserver",
+            "device": "STM32U575ZI",
+            "interface": "swd",
+            "runToEntryPoint": "main",
+            "preLaunchTask": "Build (application)",
+            "gdbPath": "${userHome}/zephyr-sdk-0.16.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+            "armToolchainPath": "${userHome}/zephyr-sdk-0.16.4/arm-zephyr-eabi/arm-zephyr-eabi/bin",
+        }
+    ]
+}

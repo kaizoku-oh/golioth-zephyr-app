@@ -2,7 +2,7 @@
   "image": "ghcr.io/embeddedcontainers/zephyr:arm-0.16.4SDK",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/app,type=bind",
   "workspaceFolder": "/workspace",
-  "onCreateCommand": "west init -l app/ && west update && west zephyr-export && pip install -r deps/zephyr/scripts/requirements.txt && pip install -r deps/bootloader/mcuboot/scripts/requirements.txt",
+  "onCreateCommand": "app/scripts/devcontainer/setup.sh",
   "mounts": [
     "source=${localWorkspaceFolder}/.vscode/,target=/workspace/.vscode,type=bind,consistency=cached"
   ],
