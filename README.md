@@ -115,6 +115,14 @@ Once vscode is open you can run your workspace tasks.
 
 - [x] Add console and shell over USB on stm32f4_disco
 
+- [x] Add application events manager using zbus
+
+- [x] Add asserts on arguments for all user class methods
+
+- [x] Add configurable vscode tasks
+
+- [ ] Add separate build status badges for each board
+
 - [ ] Fix flashing in devcontainer
 
 - [ ] Fix menuconfig vscode task inside devcontainer
@@ -123,15 +131,11 @@ Once vscode is open you can run your workspace tasks.
 
 - [ ] Solve the Shared Callback Registration problem in the Network class (broadcast an event)
 
-- [x] Add application events manager using zbus
-
 - [ ] Add a script to download and setup the project (intellisense, structure, venv...)
 
 - [ ] Automate updating the README.md Build footprint table automatically by running a post build
 
 - [ ] Add stm32f4_disco LEDs and button to repl file
-
-- [x] Add asserts on arguments for all user class methods
 
 - [ ] Control actuators (servos, dc motors...) with PWM
 
@@ -140,8 +144,6 @@ Once vscode is open you can run your workspace tasks.
 - [ ] Add thread safety to user classes
 
 - [ ] Run app in Renode
-
-- [ ] Add configurable vscode tasks
 
 - [ ] Integrate Renode + robot in the CI workflow
 

@@ -26,6 +26,29 @@
             ],
         },
         {
+            "label": "Build (application with OTA)",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "west",
+            "args": [
+                "build",
+                "${workspaceFolder}/app",
+                "-d",
+                "${workspaceFolder}/app/build",
+                "-DEXTRA_CONF_FILE=overlay-ota.conf",
+                "-p",
+                "auto",
+                "-b",
+                "${input:board}"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+        },
+        {
             "label": "Build (bootloader)",
             "type": "shell",
             "group": {
@@ -38,6 +61,7 @@
                 "${workspaceFolder}/deps/bootloader/mcuboot/boot/zephyr",
                 "-d",
                 "${workspaceFolder}/deps/bootloader/mcuboot/boot/zephyr/build",
+                "-DAPPLICATION_CONFIG_DIR=${workspaceFolder}/app",
                 "-p",
                 "auto",
                 "-b",

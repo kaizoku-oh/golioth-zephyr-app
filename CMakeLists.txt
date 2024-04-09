@@ -8,15 +8,15 @@ target_include_directories(app PRIVATE include)
 
 target_sources(app PRIVATE
   src/main.cpp
-  # src/Button.cpp
-  # src/Led.cpp
+  src/Button.cpp
+  src/Led.cpp
   src/Temperature.cpp
-  # src/Serial.cpp
+  src/Serial.cpp
   # src/Network.cpp
-  # src/Storage.cpp
+  src/Storage.cpp
   # src/HttpClient.cpp
-  # src/EventManager.cpp
+  src/EventManager.cpp
   # src/Updater.cpp
-  # src/AppAcquisition.cpp
+  src/AppAcquisition.cpp
   # src/AppTelemetry.cpp
 )
