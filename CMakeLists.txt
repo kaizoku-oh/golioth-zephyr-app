@@ -19,4 +19,5 @@ target_sources(app PRIVATE
   # src/Updater.cpp
   src/AppAcquisition.cpp
   # src/AppTelemetry.cpp
+  src/AppEventDrivenFsm.cpp
 )
