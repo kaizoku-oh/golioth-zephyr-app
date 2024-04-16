@@ -49,7 +49,7 @@ static void state0Run(void *machine) {
 
   /* Fiter on events that we need in STATE 0 */
 
-  if (stateMachine->events & EVENT_BUTTON_PRESS) {
+  if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_1]);
   }
@@ -60,7 +60,7 @@ static void state1Run(void *machine) {
 
   /* Fiter on events that we need in STATE 1 */
 
-  if (stateMachine->events & EVENT_BUTTON_PRESS) {
+  if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_0]);
   }
