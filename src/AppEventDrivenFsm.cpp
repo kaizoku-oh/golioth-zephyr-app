@@ -34,7 +34,6 @@ K_THREAD_DEFINE(appThread, 1024, appThreadHandler, NULL, NULL, NULL, 7, 0, 0);
 
 /* Get button device from DTS */
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET_OR(DT_ALIAS(sw0), gpios, {0});
-static struct gpio_callback buttonCallbackData = {0};
 
 /* List of states */
 static const struct smf_state states[] = {
@@ -42,12 +41,15 @@ static const struct smf_state states[] = {
   [STATE_1] = SMF_CREATE_STATE(NULL, state1Run, NULL),
 };
 
-static void appThreadHandler() {
-  /* Global state machine */
-  state_machine_t stateMachine = {0};
+/* Global state machine */
+static state_machine_t stateMachine = {0};
 
+/* Button GPIO callback data */
+static struct gpio_callback buttonCallbackData = {0};
+
+static void appThreadHandler() {
   /* Configure button GPIO and interrupt */
-  setupButton(&button, &callbackData);
+  setupButton(&button, &buttonCallbackData);
 
   /* Initialize the event kernel object inside the state machine */
   k_event_init(&stateMachine.kEvent);
@@ -70,10 +72,7 @@ static void appThreadHandler() {
 }
 
 static void state0Run(void *machine) {
-  state_machine_t *s = (state_machine_t *)machine;
-
   /* Fiter on events that we need in STATE 0 */
-
   if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_1]);
@@ -81,10 +80,7 @@ static void state0Run(void *machine) {
 }
 
 static void state1Run(void *machine) {
-  state_machine_t *s = (state_machine_t *)machine;
-
   /* Fiter on events that we need in STATE 1 */
-
   if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_0]);
