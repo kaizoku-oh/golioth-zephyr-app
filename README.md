@@ -77,49 +77,9 @@ Once vscode is open you can run your workspace tasks.
 
 ## ✅ ToDo
 
-- [x] Blink board LED
+- [ ] Use an event driven state machine using the SMF OS service and the message queue kernel object
 
-- [x] Shell over UART
-
-- [x] Fix vscode launch with cortex-debug
-
-- [x] Add multithreading code
-
-- [x] Add die temp sensor class
-
-- [x] Add Github CI workflow
-
-- [x] Add GitHub badges to readme
-
-- [x] Enable C++20
-
-- [x] Add lambda callback to Serial class
-
-- [x] Add a simple Network manager class
-
-- [x] Add NVS Storage class
-
-- [x] Add HTTP client class
-
-- [x] Add an IoT app that reads die temperature, store it in NVS, retrieve it, format it then send it
-
-- [x] Add vscode dev container environment
-
-- [x] Build project with MCUBoot
-
-- [x] Download a binary file with HTTP client
-
-- [x] Boot on the new image after downloading the binary file
-
-- [x] Add Updater class/service to manage firmware upgrades (on top of HttpClient, DFU subsystem)
-
-- [x] Add console and shell over USB on stm32f4_disco
-
-- [x] Add application events manager using zbus
-
-- [x] Add asserts on arguments for all user class methods
-
-- [x] Add configurable vscode tasks
+- [ ] Add trinamic driver as a west module
 
 - [ ] Add separate build status badges for each board
 
@@ -165,8 +125,6 @@ Once vscode is open you can run your workspace tasks.
 
 - [ ] Use the active object design pattern
 
-- [ ] Use an event driven state machine using the SMF OS service and the message queue kernel object
-
 - [ ] Add Local class for managing local time and geo-location
 
 - [ ] Add MQTT client class
@@ -174,6 +132,50 @@ Once vscode is open you can run your workspace tasks.
 - [ ] Add TCP class
 
 - [ ] Add an out-of-tree driver
+
+- [x] Blink board LED
+
+- [x] Shell over UART
+
+- [x] Fix vscode launch with cortex-debug
+
+- [x] Add multithreading code
+
+- [x] Add die temp sensor class
+
+- [x] Add Github CI workflow
+
+- [x] Add GitHub badges to readme
+
+- [x] Enable C++20
+
+- [x] Add lambda callback to Serial class
+
+- [x] Add a simple Network manager class
+
+- [x] Add NVS Storage class
+
+- [x] Add HTTP client class
+
+- [x] Add an IoT app that reads die temperature, store it in NVS, retrieve it, format it then send it
+
+- [x] Add vscode dev container environment
+
+- [x] Build project with MCUBoot
+
+- [x] Download a binary file with HTTP client
+
+- [x] Boot on the new image after downloading the binary file
+
+- [x] Add Updater class/service to manage firmware upgrades (on top of HttpClient, DFU subsystem)
+
+- [x] Add console and shell over USB on stm32f4_disco
+
+- [x] Add application events manager using zbus
+
+- [x] Add asserts on arguments for all user class methods
+
+- [x] Add configurable vscode tasks
 
 ## 💳 Credits
 This project is generated from the [zephyr-vscode-example](https://github.com/beriberikix/zephyr-vscode-example) template by [Jonathan Beri](https://github.com/beriberikix).

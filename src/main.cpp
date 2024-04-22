@@ -8,7 +8,18 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(main);
 
+#include "tmc5160.h"
+
+const struct device *tmc0 = DEVICE_DT_GET( DT_ALIAS(tmc0));
+
 int main(void) {
+
+  if (!device_is_ready(tmc0)) {
+    printk("TMC device is not ready\r\n");
+    return EXIT_FAILURE;
+  }
+
+  tmc_run(tmc0, 0, 60, 0);
 
   while (true) {
     k_msleep(100);
