@@ -1,12 +1,25 @@
+/*-----------------------------------------------------------------------------------------------*/
+/* Includes                                                                                      */
+/*-----------------------------------------------------------------------------------------------*/
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/smf.h>
 
-/* List of events */
-#define EVENT_ANY          (uint32_t)(0xFFFFFFFF)
-#define EVENT_BUTTON_PRESS (uint32_t)(BIT(0))
+/*-----------------------------------------------------------------------------------------------*/
+/* Private defines                                                                               */
+/*-----------------------------------------------------------------------------------------------*/
+/* Timer period in millseconds */
+#define TIMER_PERIOD_IN_MS         ((uint32_t)3000)
 
-/* Used to facilitate indexing the states[] list */
+/* List of bit-fielded events */
+#define EVENT_ANY                  ((uint32_t)0xFFFFFFFF)
+#define EVENT_BUTTON_PRESS         ((uint32_t)BIT(0))
+#define EVENT_TIMER_PERIOD_ELEPSED ((uint32_t)BIT(1))
+
+/*-----------------------------------------------------------------------------------------------*/
+/* Private types                                                                                 */
+/*-----------------------------------------------------------------------------------------------*/
+/* Used to facilitate indexing/enumerating the states[] list */
 typedef enum {
   STATE_0 = 0,
   STATE_1,
@@ -23,16 +36,24 @@ typedef struct {
   /* Other state specific data add here */
 } state_machine_t;
 
+/*-----------------------------------------------------------------------------------------------*/
+/* Private function prototypes                                                                   */
+/*-----------------------------------------------------------------------------------------------*/
 static void appThreadHandler();
+static void appTimerHandler(struct k_timer *timer);
 static void state0EventsHandler(void *machine);
 static void state1EventsHandler(void *machine);
 static void setupButton(const struct gpio_dt_spec *buttonGpio, struct gpio_callback *callbackData);
 static void onButtonPressCallback(const struct device *dev, struct gpio_callback *cb, uint32_t pins);
 
-/* Create thread */
+/*-----------------------------------------------------------------------------------------------*/
+/* Private constants                                                                             */
+/*-----------------------------------------------------------------------------------------------*/
+/* Create app kernel objects */
 K_THREAD_DEFINE(appThread, 1024, appThreadHandler, NULL, NULL, NULL, 7, 0, 0);
+K_TIMER_DEFINE(appTimer, appTimerHandler, NULL);
 
-/* Get button device from DTS */
+/* Get button GPIO device from DTS */
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET_OR(DT_ALIAS(sw0), gpios, {0});
 
 /* List of states */
@@ -41,12 +62,18 @@ static const struct smf_state states[] = {
   [STATE_1] = SMF_CREATE_STATE(NULL, state1EventsHandler, NULL),
 };
 
+/*-----------------------------------------------------------------------------------------------*/
+/* Private global variables                                                                      */
+/*-----------------------------------------------------------------------------------------------*/
 /* Global state machine */
 static state_machine_t stateMachine = {0};
 
 /* Button GPIO callback data */
 static struct gpio_callback buttonCallbackData = {0};
 
+/*-----------------------------------------------------------------------------------------------*/
+/* Private functions                                                                             */
+/*-----------------------------------------------------------------------------------------------*/
 static void appThreadHandler() {
   int ret = 0;
 
@@ -59,11 +86,14 @@ static void appThreadHandler() {
   /* Set initial state for the state machine */
   smf_set_initial(SMF_CTX(&stateMachine), &states[STATE_0]);
 
+  /* Start a periodic timer that expires once every 3 seconds */
+  k_timer_start(&appTimer, K_MSEC(TIMER_PERIOD_IN_MS), K_MSEC(TIMER_PERIOD_IN_MS));
+
   /* Run the state machine */
   while(1) {
     /* Block forever until any event is detected */
     stateMachine.events = k_event_wait(&stateMachine.kEvent, EVENT_ANY, true, K_FOREVER);
-    /* Runs one iteration of a state machine (including any parent states) */
+    /* Run one iteration of the state machine (including any parent states) */
     ret = smf_run_state(SMF_CTX(&stateMachine));
     /* State machine terminates if a non-zero value is returned */
     if (ret) {
@@ -73,11 +103,18 @@ static void appThreadHandler() {
   }
 }
 
+static void appTimerHandler(struct k_timer *timer) {
+  /* Generate timer period elapsed event */
+  k_event_post(&stateMachine.kEvent, EVENT_TIMER_PERIOD_ELEPSED);
+}
+
 static void state0EventsHandler(void *machine) {
   /* Filter on events that we need in STATE 0 */
   if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_1]);
+  } else if (stateMachine.events & EVENT_TIMER_PERIOD_ELEPSED) {
+    /* Handle this event in STATE_0 */
   }
 }
 
@@ -86,6 +123,8 @@ static void state1EventsHandler(void *machine) {
   if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_0]);
+  } else if (stateMachine.events & EVENT_TIMER_PERIOD_ELEPSED) {
+    /* Handle this event in STATE_1 */
   }
 }
 
