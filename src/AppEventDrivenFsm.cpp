@@ -8,13 +8,13 @@
 /*-----------------------------------------------------------------------------------------------*/
 /* Private defines                                                                               */
 /*-----------------------------------------------------------------------------------------------*/
-/* Timer period in millseconds */
+/* Timer period in milliseconds */
 #define TIMER_PERIOD_IN_MS         ((uint32_t)3000)
 
 /* List of bit-fielded events */
 #define EVENT_ANY                  ((uint32_t)0xFFFFFFFF)
 #define EVENT_BUTTON_PRESS         ((uint32_t)BIT(0))
-#define EVENT_TIMER_PERIOD_ELEPSED ((uint32_t)BIT(1))
+#define EVENT_TIMER_PERIOD_ELAPSED ((uint32_t)BIT(1))
 
 /*-----------------------------------------------------------------------------------------------*/
 /* Private types                                                                                 */
@@ -90,7 +90,7 @@ static void appThreadHandler() {
   k_timer_start(&appTimer, K_MSEC(TIMER_PERIOD_IN_MS), K_MSEC(TIMER_PERIOD_IN_MS));
 
   /* Run the state machine */
-  while(1) {
+  while (true) {
     /* Block forever until any event is detected */
     stateMachine.events = k_event_wait(&stateMachine.kEvent, EVENT_ANY, true, K_FOREVER);
     /* Run one iteration of the state machine (including any parent states) */
@@ -105,7 +105,7 @@ static void appThreadHandler() {
 
 static void appTimerHandler(struct k_timer *timer) {
   /* Generate timer period elapsed event */
-  k_event_post(&stateMachine.kEvent, EVENT_TIMER_PERIOD_ELEPSED);
+  k_event_post(&stateMachine.kEvent, EVENT_TIMER_PERIOD_ELAPSED);
 }
 
 static void state0EventsHandler(void *machine) {
@@ -113,7 +113,7 @@ static void state0EventsHandler(void *machine) {
   if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_1]);
-  } else if (stateMachine.events & EVENT_TIMER_PERIOD_ELEPSED) {
+  } else if (stateMachine.events & EVENT_TIMER_PERIOD_ELAPSED) {
     /* Handle this event in STATE_0 */
   }
 }
@@ -123,7 +123,7 @@ static void state1EventsHandler(void *machine) {
   if (stateMachine.events & EVENT_BUTTON_PRESS) {
     /* Change state on button press event */
     smf_set_state(SMF_CTX(&stateMachine), &states[STATE_0]);
-  } else if (stateMachine.events & EVENT_TIMER_PERIOD_ELEPSED) {
+  } else if (stateMachine.events & EVENT_TIMER_PERIOD_ELAPSED) {
     /* Handle this event in STATE_1 */
   }
 }
