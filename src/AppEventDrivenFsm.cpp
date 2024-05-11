@@ -4,6 +4,8 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/smf.h>
+#include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(event_driven_fsm, LOG_LEVEL_DBG);
 
 /*-----------------------------------------------------------------------------------------------*/
 /* Private defines                                                                               */
@@ -133,17 +135,17 @@ static void setupButton(const struct gpio_dt_spec *buttonGpio, struct gpio_callb
 
   /* Setup button GPIO and interrupt */
   if (!gpio_is_ready_dt(buttonGpio)) {
-    printk("Error: button device %s is not ready\r\n", button.port->name);
+    LOG_ERR("Error: button device %s is not ready\r\n", button.port->name);
     return;
   }
   ret = gpio_pin_configure_dt(buttonGpio, GPIO_INPUT);
   if (ret != 0) {
-    printk("Error %d: failed to configure %s pin %d\r\n", ret, button.port->name, button.pin);
+    LOG_ERR("Error %d: failed to configure %s pin %d\r\n", ret, button.port->name, button.pin);
     return;
   }
   ret = gpio_pin_interrupt_configure_dt(buttonGpio, GPIO_INT_EDGE_TO_ACTIVE);
   if (ret != 0) {
-    printk("Error %d: failed to configure interrupt on %s pin %d\r\n", ret, button.port->name, button.pin);
+    LOG_ERR("Error %d: failed to configure interrupt on %s pin %d\r\n", ret, button.port->name, button.pin);
     return;
   }
   gpio_init_callback(callbackData, onButtonPressCallback, BIT(button.pin));

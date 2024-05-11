@@ -5,6 +5,7 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(app)
 
 target_include_directories(app PRIVATE include)
+target_include_directories(app PUBLIC ${ZEPHYR_BASE}/../modules/lib/golioth-firmware-sdk/examples/zephyr/common/include)
 
 target_sources(app PRIVATE
   # src/main.cpp
@@ -19,5 +20,6 @@ target_sources(app PRIVATE
   # src/Updater.cpp
   # src/AppAcquisition.cpp
   # src/AppTelemetry.cpp
-  src/AppEventDrivenFsm.cpp
+  # src/AppEventDrivenFsm.cpp
+  src/app_golioth.c
 )
