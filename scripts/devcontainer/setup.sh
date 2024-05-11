@@ -13,5 +13,5 @@ pip install -r deps/zephyr/scripts/requirements.txt
 # Install Python dependencies required by MCUBoot
 pip install -r deps/bootloader/mcuboot/scripts/requirements.txt
 
-# Copy nucleo_u575zi_q overlay to mcuboot
-cp app/boards/nucleo_u575zi_q.overlay deps/bootloader/mcuboot/boot/zephyr/boards
+# Copy .vscode to outer directory
+cp -r app/.vscode .
