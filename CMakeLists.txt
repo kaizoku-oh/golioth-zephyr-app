@@ -8,7 +8,7 @@ target_include_directories(app PRIVATE include)
 target_include_directories(app PUBLIC ${ZEPHYR_BASE}/../modules/lib/golioth-firmware-sdk/examples/zephyr/common/include)
 
 target_sources(app PRIVATE
-  # src/main.cpp
+  src/main.cpp
   # src/Button.cpp
   # src/Led.cpp
   # src/Temperature.cpp
@@ -21,5 +21,5 @@ target_sources(app PRIVATE
   # src/AppAcquisition.cpp
   # src/AppTelemetry.cpp
   # src/AppEventDrivenFsm.cpp
-  src/app_golioth.c
+  # src/app_golioth.c
 )
